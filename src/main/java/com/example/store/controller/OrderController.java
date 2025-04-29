@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/order")
@@ -30,4 +31,11 @@ public class OrderController {
     public OrderDTO createOrder(@RequestBody Order order) {
         return orderMapper.orderToOrderDTO(orderRepository.save(order));
     }
+
+    @GetMapping("/{id}")
+    public Order getOrderById(@PathVariable Long id) {
+        Optional<Order> order = Optional.ofNullable(orderMapper.findById(id));
+        return order.orElseThrow();
+    }
+
 }
